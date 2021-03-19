@@ -15,7 +15,7 @@
 my_rf_cv <- function(k) {
   # Variable fold based on input parameter
   fold <- k
-  my_penguins <- penguins %>% drop_na()
+  my_penguins <- my_penguins %>% drop_na()
   total <- nrow(my_penguins)
   # Randomly assign observation to folds with equal probability
   inds <- sample(rep(1:fold, length = total))

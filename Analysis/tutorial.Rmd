@@ -18,7 +18,7 @@ library(ggplot2)
 library(kableExtra)
 library(dplyr)
 library(randomForest)
-
+library(tidyr)
 
 # load penguin data
 my_penguins <- read_csv("../Data/my_penguins.csv")
