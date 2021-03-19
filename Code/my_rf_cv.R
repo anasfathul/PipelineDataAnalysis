@@ -1,30 +1,21 @@
-#' the t-test calculator
+#' Random-Forest Cross Validation method
 #'
-#' This function calculates values associated to the t-test such as the
-#' test statistics, p-value, degree of freedom, and the conclusion on
-#' whether we reject or fail to reject the null hypothesis tested from
-#' lifeExp data in the gapminder package.
+#' This function predict output \code{body_mass_g} using covariates \code{bill_length_mm},
+#' \code{bill_depth_mm}, and \code{flipper_length_mm}.
 #'
-#' @param x the numeric vector of lifeExp pulled from the gapminder data
-#' @param alternative the one-sided or two-sided test
-#' @param mu the mean value tested given from the null hypothesis (mu = 60)
-#' @keywords hypothesis, inference
+#' @param k the number of folds
+#' @keywords prediction, cross validation
 #'
-#' @return A list indicating test statistics, p-value, degree of freedom,
-#' and the conclusion on whether we reject or fail to reject the null hypothesis
-#' tested from lifeExp data in the gapminder package.
+#' @return numeric with cross validation error
 #'
 #' @examples
-#' set.seed(302)
-#' p <- 0.4
-#' flip_coin <- rbinom(100, size = 1, prob = p)
-#' my_t.test(as.numeric(flip_coin), alternative = "greater", mu = p)
+#' my_rf_cv(5)
 #'
 #' @export
 my_rf_cv <- function(k) {
   # Variable fold based on input parameter
   fold <- k
-  my_penguins <- my_penguins %>% drop_na()
+  my_penguins <- penguins %>% drop_na()
   total <- nrow(my_penguins)
   # Randomly assign observation to folds with equal probability
   inds <- sample(rep(1:fold, length = total))

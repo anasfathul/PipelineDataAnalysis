@@ -1,11 +1,7 @@
 ---
 title: "Project 3: PipelineDataAnalysis Tutorial"
 author: "Muhammad Anas and Hadi NAzirool"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{PipelineDataAnalysis Tutorial}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+output: html_document
 ---
 
 ```{r, include = FALSE}
@@ -15,6 +11,73 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
-library(PipelineDataAnalysis)
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggplot2)
+library(kableExtra)
+library(dplyr)
+library(randomForest)
+
+
+# load penguin data
+my_penguins <- read_csv("../Data/my_penguins.csv")
+# Random forest code
+source("../Code/my_rf_cv.R")
 ```
+### This RMarkdown file interprets the function of my_rf_cv and its results.
+- This function predict output \code{body_mass_g} using covariates \code{bill_length_mm},
+\code{bill_depth_mm}, and \code{flipper_length_mm}.
+parameter: k- the number of folds
+The function returns the numeric with cross validation error.
+
+```{r}
+# my_penguins <- my_penguins %>% drop_na()
+# 
+# mse_mat <- matrix(nrow = 90, ncol = 2)
+# ks <- c(2, 5, 10)
+# for (i in 1:3) {
+#   k <- ks[i]
+#   for (j in 1:30) {
+#     mse_mat[(i-1)*30+j, 1] <- k
+#     mse_mat[(i-1)*30+j, 2] <- my_rf_cv(k)
+#   }
+# }
+# mse_df <- data.frame(names = mse_mat[,1], mse = mse_mat[,2])
+# 
+# ggplot(data = mse_df, aes(group = k, x = k, y = mse)) +
+#   geom_boxplot(fill = "yellow") +
+#   labs(title = "MSE based on Folds", x = "Number of Folds", y = "MSE") +
+#   theme_bw(base_size = 15) +
+#   theme(plot.title =
+#           element_text(hjust = 0.5),
+#         text = element_text(size = 10))
+# 
+# 
+# mse_k2 <- (mse_df %>% filter(k == 2) %>% select(mse))$mse
+# mse_k5 <- (mse_df %>% filter(k == 5) %>% select(mse))$mse
+# mse_k10 <- (mse_df %>% filter(k == 10) %>% select(mse))$mse
+# mse_stat <- rbind(c(2, mean(mse_k2), sd(mse_k2)),
+#                        c(5, mean(mse_k5), sd(mse_k5)),
+#                        c(10, mean(mse_k10), sd(mse_k10)))
+# 
+# mse_stats_df <- data.frame(k = mse_stat[,1],
+#                            mse_mean = mse_stat[,2],
+#                            mse_sd = mse_stat[,3])
+# 
+# 
+# kable_styling(kable(mse_stats_df))
+```
+
+Explanation: from the boxplot, we can see that the number of folds = 2 records
+the highest mean among all three observations. However, the box is stretched
+to its biggest width among all three, which also can be seen in the table where 
+2 folds record the highest standard deviation of 6296.5 whereas the lowest 
+standard deviation is recorded in 10  folds with 2433.0. This is the expected case
+as smaller number of folds tend to be collected in a large group which also
+include extreme values that stretches the mean and increase the
+variability of the data. Higher number of folds means that most observations
+are categorized based on approximated placement in the graph which means
+that the mean of every fold is lower due to lack of extreme values. Hence,
+this lack of variability also decreases the standard deviation that explains the
+distribution patterns in the data folds.
