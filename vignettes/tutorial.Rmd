@@ -32,41 +32,44 @@ parameter: k- the number of folds
 The function returns the numeric with cross validation error.
 
 ```{r}
-# my_penguins <- my_penguins %>% drop_na()
-# 
-# mse_mat <- matrix(nrow = 90, ncol = 2)
-# ks <- c(2, 5, 10)
-# for (i in 1:3) {
-#   k <- ks[i]
-#   for (j in 1:30) {
-#     mse_mat[(i-1)*30+j, 1] <- k
-#     mse_mat[(i-1)*30+j, 2] <- my_rf_cv(k)
-#   }
-# }
-# mse_df <- data.frame(names = mse_mat[,1], mse = mse_mat[,2])
-# 
-# ggplot(data = mse_df, aes(group = k, x = k, y = mse)) +
-#   geom_boxplot(fill = "yellow") +
-#   labs(title = "MSE based on Folds", x = "Number of Folds", y = "MSE") +
-#   theme_bw(base_size = 15) +
-#   theme(plot.title =
-#           element_text(hjust = 0.5),
-#         text = element_text(size = 10))
-# 
-# 
-# mse_k2 <- (mse_df %>% filter(k == 2) %>% select(mse))$mse
-# mse_k5 <- (mse_df %>% filter(k == 5) %>% select(mse))$mse
-# mse_k10 <- (mse_df %>% filter(k == 10) %>% select(mse))$mse
-# mse_stat <- rbind(c(2, mean(mse_k2), sd(mse_k2)),
-#                        c(5, mean(mse_k5), sd(mse_k5)),
-#                        c(10, mean(mse_k10), sd(mse_k10)))
-# 
-# mse_stats_df <- data.frame(k = mse_stat[,1],
-#                            mse_mean = mse_stat[,2],
-#                            mse_sd = mse_stat[,3])
-# 
-# 
-# kable_styling(kable(mse_stats_df))
+my_penguins <- my_penguins %>% drop_na()
+
+mse_mat <- matrix(nrow = 90, ncol = 2)
+ks <- c(2, 5, 10)
+for (i in 1:3) {
+  k <- ks[i]
+  for (j in 1:30) {
+    mse_mat[(i-1)*30+j, 1] <- k
+    mse_mat[(i-1)*30+j, 2] <- my_rf_cv(k)
+  }
+}
+mse_df <- data.frame(names = mse_mat[,1], mse = mse_mat[,2])
+
+ggplot(data = mse_df, aes(group = k, x = k, y = mse)) +
+  geom_boxplot(fill = "yellow") +
+  labs(title = "MSE based on Folds", x = "Number of Folds", y = "MSE") +
+  theme_bw(base_size = 15) +
+  theme(plot.title =
+          element_text(hjust = 0.5),
+        text = element_text(size = 10))
+
+
+mse_k2 <- (mse_df %>% filter(k == 2) %>% select(mse))$mse
+mse_k5 <- (mse_df %>% filter(k == 5) %>% select(mse))$mse
+mse_k10 <- (mse_df %>% filter(k == 10) %>% select(mse))$mse
+mse_stat <- rbind(c(2, mean(mse_k2), sd(mse_k2)),
+                       c(5, mean(mse_k5), sd(mse_k5)),
+                       c(10, mean(mse_k10), sd(mse_k10)))
+```
+```{r}
+mse_stats_df <- data.frame(k = mse_stat[,1],
+                           mse_mean = mse_stat[,2],
+                           mse_sd = mse_stat[,3])
+
+
+kable_styling(kable(mse_stats_df))
+write.csv(MSE_data, "../Output/Results/mse_data.csv")
+saveRDS(MSE_table, "../Output/Results/mse_table.RDS")
 ```
 
 Explanation: from the boxplot, we can see that the number of folds = 2 records
