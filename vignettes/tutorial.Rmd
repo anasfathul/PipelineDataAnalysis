@@ -1,0 +1,20 @@
+---
+title: "Project 3: PipelineDataAnalysis Tutorial"
+author: "Muhammad Anas and Hadi NAzirool"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{PipelineDataAnalysis Tutorial}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(PipelineDataAnalysis)
+```
